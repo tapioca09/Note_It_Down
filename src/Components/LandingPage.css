@@ -1,0 +1,36 @@
+.login-form{
+    display: flex;
+    flex-direction: column;
+}
+
+.input-field{
+    width: 300px;
+    height: 40px;
+    margin: 5px auto;
+    border: 1px solid gray;
+    border-radius: 10px;
+    padding-left: 10px;
+    
+}
+
+.submit-button{
+    width: 250px;
+    height: 40px;
+    margin: 5px auto;
+    border: 1px solid gray;
+    border-radius: 10px;
+    padding-left: 10px;
+    background-color: rgb(77, 77, 246);
+
+}
+
+.submit-button:hover{
+    background-color: rgb(68, 68, 216);
+    
+}
+
+.link{
+    color: rgb(77, 77, 246);
+    text-decoration: underline;
+    cursor: pointer;
+}
