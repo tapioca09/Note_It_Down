@@ -41,3 +41,12 @@
 .action_button{
     margin: 0 2px;
 }
+
+.input_while_editing{
+    padding-left: 5px;
+    margin: 0;
+    height: 30px;
+    width: 100%;
+    border: 1px solid purple;
+    border-radius: 10px;  
+}

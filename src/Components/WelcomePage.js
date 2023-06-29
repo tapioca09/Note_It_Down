@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { db } from '../config/firebase'
-import {collection, getDocs} from "firebase/firestore"
+import {collection, getDocs, onSnapshot, orderBy, query, where} from "firebase/firestore"
 import "./WelcomePage.css"
 import Posts from './Posts'
 
@@ -14,14 +14,26 @@ const [notes,setNotes]=useState([]);
   useEffect(()=>{
     const getPosts = async ()=>{
       try{
-        const data= await getDocs(postsCollectionRef)
-        const fetchedPosts=[]
-        data.forEach((doc)=>fetchedPosts.push({
-          title:doc.data().title,
-          body:doc.data().body,
-          noteId:doc.id
-        }))
-        setNotes((prev)=>[...prev,...fetchedPosts])
+        // const data= await getDocs(postsCollectionRef)
+        // const fetchedPosts=[]
+        // data.forEach( (doc)=>fetchedPosts.push({
+        //   title:doc.data().title,
+        //   body:doc.data().body,
+        //   noteId:doc.id
+        // }))
+
+        const q = query(postsCollectionRef, where("author","==",auth.currentUser.email));
+        const unsubscribe = onSnapshot(q, (querySnapshot) => {
+          const fetchedPosts=[];
+          querySnapshot.forEach( (doc)=>fetchedPosts.push({
+              title:doc.data().title,
+              body:doc.data().body,
+              noteId:doc.id
+            }));
+            setNotes(fetchedPosts)
+        });
+
+        
         // console.log("fired once")
       }
       catch(error){
@@ -49,7 +61,7 @@ const [notes,setNotes]=useState([]);
         <button onClick={logOut}>Log Out</button>
         
 
-        <NewNote/>
+        <NewNote author={auth.currentUser.email}/>
         
         {notes.map((note)=><Posts title={note.title} body={note.body} id={note.noteId}/> 
         )}

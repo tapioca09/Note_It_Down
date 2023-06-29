@@ -1,28 +1,36 @@
 import React, { useState } from 'react'
 import { db } from '../config/firebase'
-import {addDoc,collection} from "firebase/firestore"
+import {Timestamp, addDoc,collection} from "firebase/firestore"
 import "./NewNote.css"
 
-function NewNote() {
+function NewNote({author}) {
   const [title,setTitle]=useState("")
   const [body,setBody]=useState("")
 
   const postsCollectionRef=collection(db,"posts")
 
-  const addNote= async ()=>{
-    try{
-      await addDoc(postsCollectionRef,
-        {
-          title:title,
-          body:body
-        }
-        
-      )
-      alert("note added successfully")
+  const addNote = async () => {
+
+    if (title === "" || body === "") {
+      alert("title or body cannot be empty")
+    }
+    else {
+      try {
+        await addDoc(postsCollectionRef,
+          {
+            title: title,
+            body: body,
+            timestamp: Timestamp.now(),
+            author:author
+          }
+
+        )
+        // alert("note added successfully")
 
 
-    }catch(error){
-      alert(error)
+      } catch (error) {
+        alert(error)
+      }
     }
 
   }
